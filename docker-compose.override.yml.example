@@ -1,11 +1,11 @@
-# Ilova servislarini lokal ishga tushirish uchun namuna.
+# Example for running your own app services locally.
 #
 #   cp docker-compose.override.yml.example docker-compose.override.yml
 #
-# `docker compose` bu faylni avtomatik o'qiydi va asosiy faylga qo'shadi.
-# `docker-compose.override.yml` .gitignore da — har kim o'ziga moslashtiradi.
+# `docker compose` picks this file up automatically and merges it with the main
+# one. `docker-compose.override.yml` is git-ignored, so everyone can adapt it.
 #
-# Faqat kerakli bloklarni izohdan chiqaring.
+# Uncomment only the blocks you need.
 
 services:
   # api-node:
@@ -19,7 +19,7 @@ services:
   #     - "${PORT:-3000}:3000"
   #   volumes:
   #     - ./services/api-node:/app
-  #     - /app/node_modules          # host node_modules containerni bosmasin
+  #     - /app/node_modules          # keep host node_modules out of the container
   #   depends_on:
   #     postgres:
   #       condition: service_healthy

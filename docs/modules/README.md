@@ -1,47 +1,49 @@
-# Modul hujjatlari
+# Module documentation
 
-Har bir muhim modul (auth, payment, notification, search…) uchun bitta fayl: `docs/modules/<modul-nomi>.md`.
+One file per significant module (auth, payment, notification, search…):
+`docs/modules/<module-name>.md`.
 
-Modul ustida ishlashdan oldin shu faylni o'qing. Modul o'zgarsa — shu faylni yangilang.
+Read it before working on the module. Update it when the module changes.
 
-## Qachon modul hujjati yoziladi
+## When to write one
 
-Yoziladi: bir nechta servisga tegadigan, tashqi integratsiyasi bor, yoki biznes qoidasi murakkab bo'lgan modul uchun.
+Write one for a module that spans several services, integrates a third party,
+or encodes non-obvious business rules.
 
-Yozilmaydi: bitta fayllik yordamchi kod uchun — u yerda oddiy izoh yetarli.
+Skip it for a single-file helper — a comment is enough there.
 
-## Shablon
+## Template
 
 ```markdown
-# <Modul nomi>
+# <Module name>
 
-## Maqsad
-Bu modul qanday muammoni yechadi. 2–3 gap.
+## Purpose
+What problem this module solves. Two or three sentences.
 
-## Kirish nuqtalari
-| Fayl | Nima uchun |
+## Entry points
+| File | Purpose |
 | --- | --- |
 | `services/api-node/src/...` | ... |
 
-## Ma'lumot oqimi
-Kim chaqiradi → nima bo'ladi → nima qaytadi. Tashqi servislar ham ko'rsatiladi.
+## Data flow
+Who calls it → what happens → what comes back. Include external services.
 
-## Ma'lumotlar
-Tegishli jadvallar, asosiy maydonlar, muhim indekslar.
+## Data
+Relevant tables, key columns, important indexes.
 
-## Biznes qoidalari
-- Qoida va uning sababi.
+## Business rules
+- The rule and the reason behind it.
 
-## Xatolar
-| Holat | Javob | Nima qilinadi |
+## Errors
+| Condition | Response | What happens |
 | --- | --- | --- |
 
 ## Environment
-Kerak bo'ladigan `.env` o'zgaruvchilari.
+The `.env` variables this module needs.
 
-## Test
-Qaysi testlar bu modulni qoplaydi va ularni qanday ishga tushirish.
+## Tests
+Which tests cover it and how to run them.
 
-## Ma'lum cheklovlar
-Hozircha yechilmagan narsalar.
+## Known limitations
+What is deliberately unsolved for now.
 ```

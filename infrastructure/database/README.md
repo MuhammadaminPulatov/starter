@@ -1,5 +1,11 @@
 # infrastructure/database
 
-Database bilan bog'liq infratuzilma: init SQL skriptlari, seed ma'lumot, backup/restore skriptlari, sozlash fayllari.
+Database infrastructure: init SQL scripts, seed data, backup/restore scripts,
+configuration files.
 
-Migrationlar bu yerda emas — ular servis ichida turadi (masalan `services/<servis>/alembic/`).
+`docker-compose.yml` mounts this directory into
+`/docker-entrypoint-initdb.d`, so any `*.sql` file here runs the first time the
+database starts.
+
+Migrations do not live here — they belong to the owning service (for example
+`services/<service>/alembic/`).

@@ -1,25 +1,25 @@
-## Nima o'zgardi?
+## What changed?
 
-<!-- Qisqa: nima va nega. "Nima" kod diffdan ko'rinadi, "nega" ko'rinmaydi. -->
+<!-- Briefly: what and why. The diff shows the "what"; it cannot show the "why". -->
 
-## Qanday tekshirildi?
+## How was it verified?
 
 - [ ] `make lint`
 - [ ] `make test`
 - [ ] `make build`
 - [ ] `make doctor`
 
-<!-- Qo'lda nimani sinadingiz? -->
+<!-- What did you check by hand? -->
 
-## Ta'sir
+## Impact
 
-- [ ] API o'zgardi → `docs/api/openapi.yaml` yangilandi
-- [ ] Database o'zgardi → migration qo'shildi va qaytarilishi mumkin
-- [ ] Yangi environment o'zgaruvchisi → `.env.example` va deploy muhitiga qo'shildi
-- [ ] Yangi papka/modul → `PROJECT_INDEX.md` yangilandi
-- [ ] Foydalanuvchiga ta'sir qiladi → `CHANGELOG.md` yangilandi
-- [ ] Buzuvchi o'zgarish (breaking change) — quyida tushuntiring
+- [ ] API changed → `docs/api/openapi.yaml` updated
+- [ ] Database changed → migration added and reversible
+- [ ] New environment variable → added to `.env.example` and the target environment
+- [ ] New directory/module → `PROJECT_INDEX.md` updated
+- [ ] User-visible → `CHANGELOG.md` updated
+- [ ] Breaking change — explain below
 
-## Eslatma
+## Notes
 
-<!-- Deploy tartibi, rollback rejasi yoki e'tibor berilishi kerak bo'lgan narsa. -->
+<!-- Deploy order, rollback plan, or anything that needs attention. -->

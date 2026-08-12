@@ -1,12 +1,12 @@
 # app
 
-FastAPI ilovasi. Tavsiya etilgan tuzilish:
+The FastAPI application. Suggested layout:
 
-| Fayl/papka | Nima uchun |
+| File / directory | Purpose |
 | --- | --- |
-| `main.py` | FastAPI ilovasi va router ulanishi |
-| `api/` | Endpointlar (APIRouter) |
-| `models/` | SQLAlchemy modellar |
-| `schemas/` | Pydantic sxemalar |
-| `services/` | Biznes logika |
-| `core/` | Config, xavfsizlik, bog'liqliklar |
+| `main.py` | The FastAPI app and router wiring |
+| `api/` | Endpoints (APIRouter) |
+| `models/` | SQLAlchemy models |
+| `schemas/` | Pydantic schemas |
+| `services/` | Business logic |
+| `core/` | Config, security, dependencies |

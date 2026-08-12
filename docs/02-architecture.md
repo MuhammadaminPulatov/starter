@@ -1,7 +1,8 @@
-# Arxitektura
+# Architecture
 
-Bu hujjatda ilovalar, xizmatlar, database, tashqi servislar va ular orasidagi ma'lumot oqimini yozing.
+Describe the applications, services, database, third-party services and the
+data flow between them.
 
-## Standart oqim
+## Default flow
 
 `apps/*` → `services/*` → `database / external services`

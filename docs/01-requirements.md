@@ -1,12 +1,12 @@
-# Talablar
+# Requirements
 
-## Funksional talablar
+## Functional requirements
 
-- [ ] Talab 1
+- [ ] Requirement 1
 
-## Nofunksional talablar
+## Non-functional requirements
 
-- Xavfsizlik
-- Tezlik
-- Backup va tiklash
+- Security
+- Performance
+- Backup and recovery
 - Monitoring

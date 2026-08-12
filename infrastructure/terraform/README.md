@@ -1,7 +1,8 @@
 # infrastructure/terraform
 
-Infrastructure as Code — server, database, DNS, storage, secret resurslari.
+Infrastructure as code — servers, databases, DNS, storage, secret resources.
 
-**Qoida:** `terraform.tfstate` va `*.tfvars` fayllari repozitoriyga qo'shilmaydi (ular `.gitignore` da). State remote backendda saqlanadi.
+**Rule:** `terraform.tfstate` and `*.tfvars` are never committed (they are in
+`.gitignore`). State belongs in a remote backend.
 
-Qo'lda yaratilgan resurs bo'lmasin — hammasi shu yerda tasvirlansin.
+No resource should be created by hand — describe everything here.

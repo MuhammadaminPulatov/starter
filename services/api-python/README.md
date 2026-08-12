@@ -1,8 +1,8 @@
 # services/api-python
 
-Python FastAPI xizmati.
+The Python FastAPI service.
 
-**Qanday boshlash**
+**Getting started**
 
 ```bash
 cd services/api-python
@@ -10,20 +10,23 @@ uv init && uv add fastapi uvicorn sqlalchemy alembic
 uv add --dev ruff pytest
 ```
 
-`pyproject.toml` paydo bo'lgach `make lint/test` bu servisni avtomatik topadi (`ruff check`, `pytest`).
+Once `pyproject.toml` exists, `make lint/test` picks this service up
+automatically (`ruff check`, `pytest`).
 
-**Muhim:** servis kutubxona emas, ilova. `pyproject.toml` ga quyidagilarni qo'shing, aks holda `uv sync` uni paket sifatida build qilishga urinadi va `app`/`alembic` papkalari tufayli xato beradi:
+**Important:** this is an application, not a library. Add the following to
+`pyproject.toml`, otherwise `uv sync` tries to build it as a package and fails
+because of the `app` and `alembic` directories:
 
 ```toml
 [tool.uv]
 package = false
 
 [tool.pytest.ini_options]
-pythonpath = ["."]      # `from app.main import ...` ishlashi uchun
+pythonpath = ["."]      # so that `from app.main import ...` works
 testpaths = ["tests"]
 ```
 
-**Tuzilishi:** kod `app/`, migrationlar `alembic/`, testlar `tests/`.
-FastAPI API hujjatini `/docs` da avtomatik chiqaradi.
+**Layout:** code in `app/`, migrations in `alembic/`, tests in `tests/`.
+FastAPI serves the API documentation at `/docs` automatically.
 
-**Ishlatmasangiz:** bu papkani o'chiring.
+**Not using it?** Delete this directory.

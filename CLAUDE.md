@@ -1,5 +1,5 @@
 # CLAUDE.md
 
-Bu loyihaning agent qoidalari bitta joyda saqlanadi. Ularni o'qing va amal qiling:
+The agent rules for this project live in one place. Read and follow them:
 
 @AGENTS.md

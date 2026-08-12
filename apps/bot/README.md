@@ -1,14 +1,15 @@
 # apps/bot
 
-Telegram, Discord yoki Slack bot.
+A Telegram, Discord or Slack bot.
 
-**Qanday boshlash**
+**Getting started**
 
 ```bash
 mkdir -p apps/bot && cd apps/bot && npm init -y
-npm i telegraf        # yoki: pip install aiogram
+npm i telegraf        # or: pip install aiogram
 ```
 
-**Eslatma:** bot tokeni `.env` dagi `TELEGRAM_BOT_TOKEN` dan o'qiladi. Uzoq davom etadigan ishni botda emas, `services/worker` da bajaring.
+**Note:** the bot token is read from `TELEGRAM_BOT_TOKEN` in `.env`. Long-running
+work belongs in `services/worker`, not in the bot process.
 
-**Ishlatmasangiz:** bu papkani o'chiring. `make` va CI hamon ishlaydi.
+**Not using it?** Delete this directory. `make` and CI keep working.

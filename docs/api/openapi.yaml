@@ -4,11 +4,11 @@ info:
   title: Project API
   version: 0.1.0
   description: |
-    Bu fayl API ning haqiqiy manbasi (source of truth).
-    Endpoint qo'shsangiz yoki o'zgartirsangiz, shu faylni ham yangilang.
+    This file is the source of truth for the API.
+    When you add or change an endpoint, update this file too.
 
-    FastAPI (`services/api-python`) hujjatni `/docs` da avtomatik chiqaradi —
-    u holda bu faylni generatsiya qilingan sxema bilan almashtiring.
+    FastAPI (`services/api-python`) serves its documentation at `/docs`
+    automatically — in that case replace this file with the generated schema.
 
 servers:
   - url: http://localhost:3000/api/v1
@@ -20,24 +20,24 @@ servers:
 
 tags:
   - name: system
-    description: Health va service metadata
+    description: Health and service metadata
 
 paths:
   /health:
     get:
       tags: [system]
-      summary: Service holati
-      description: Load balancer va monitoring shu endpointni chaqiradi. Autentifikatsiya talab qilmaydi.
+      summary: Service health
+      description: Called by load balancers and monitoring. Requires no authentication.
       security: []
       responses:
         "200":
-          description: Service sog'lom
+          description: The service is healthy
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Health"
         "503":
-          description: Service tayyor emas (masalan, database ulanmagan)
+          description: The service is not ready (for example the database is unreachable)
           content:
             application/json:
               schema:
@@ -67,7 +67,7 @@ components:
           example: 3600
 
     Error:
-      description: Barcha xato javoblari shu shaklda qaytadi.
+      description: Every error response uses this shape.
       type: object
       required: [error]
       properties:
@@ -77,15 +77,15 @@ components:
           properties:
             code:
               type: string
-              description: Mashina o'qiydigan xato kodi.
+              description: Machine-readable error code.
               example: VALIDATION_FAILED
             message:
               type: string
-              description: Odam o'qiydigan tavsif.
-              example: "phone maydoni noto'g'ri formatda"
+              description: Human-readable description.
+              example: "phone is not a valid number"
             details:
               type: array
-              description: Maydon darajasidagi xatolar.
+              description: Field-level errors.
               items:
                 type: object
                 properties:

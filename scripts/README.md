@@ -1,18 +1,21 @@
 # Scripts
 
-Loyihaning barcha avtomatikasi. `Makefile` shu skriptlarga delegatsiya qiladi — to'g'ridan-to'g'ri ham chaqirsa bo'ladi.
+All the automation for this project. The `Makefile` delegates to these scripts;
+you can also call them directly.
 
-| Skript | Nima qiladi |
+| Script | What it does |
 | --- | --- |
-| `init-project.sh` | Templateni haqiqiy loyihaga aylantiradi: nom, kerakli stacklar, `.env`, `git init`. Bir marta ishlatiladi. |
-| `setup.sh` | `.env` yaratadi va dependencylarni o'rnatadi (`make setup`). |
-| `run.sh` | Har papkani aniqlab `lint`/`test`/`build`/`install` bajaradi (`make lint` va h.k.). |
-| `doctor.sh` | Repo sog'lig'ini tekshiradi: havolalar, env pariteti, secretlar (`make doctor`, CI ham). |
-| `lib.sh` | Umumiy funksiyalar. To'g'ridan-to'g'ri chaqirilmaydi. |
+| `init-project.sh` | Turns the template into a real project: name, stack selection, `.env`, `git init`. Run once. |
+| `setup.sh` | Creates `.env` and installs dependencies (`make setup`). |
+| `run.sh` | Detects each directory's stack and runs `lint`/`test`/`build`/`install` (`make lint` etc.). |
+| `doctor.sh` | Checks repository health: links, env parity, secrets, YAML (`make doctor`, and CI). |
+| `lib.sh` | Shared helpers and the language loader. Not called directly. |
+| `lang/` | Message catalogues: `en.sh`, `uz.sh`, `ru.sh`. |
 
-## Detection qanday ishlaydi
+## How detection works
 
-`run.sh` `apps/*`, `services/*`, `packages/*` bo'ylab yuradi va manifest fayliga qarab vositani tanlaydi:
+`run.sh` walks `apps/*`, `services/*` and `packages/*` and picks the toolchain
+from the manifest file it finds:
 
 | Manifest | Stack | lint | test | build |
 | --- | --- | --- | --- | --- |
@@ -22,21 +25,47 @@ Loyihaning barcha avtomatikasi. `Makefile` shu skriptlarga delegatsiya qiladi �
 | `Cargo.toml` | rust | `cargo clippy` | `cargo test` | `cargo build` |
 | `pubspec.yaml` | dart | `flutter analyze` | `flutter test` | — |
 
-Node uchun package manager lockfayldan aniqlanadi (`pnpm-lock.yaml` → pnpm, `yarn.lock` → yarn, `bun.lock*` → bun, aks holda npm).
+For Node the package manager comes from the lockfile (`pnpm-lock.yaml` → pnpm,
+`yarn.lock` → yarn, `bun.lock*` → bun, otherwise npm).
 
-Manifest yo'q papka o'tkazib yuboriladi va bu ekranda aniq ko'rsatiladi — hech qachon "muvaffaqiyatli" deb hisoblanmaydi.
+A directory without a manifest is skipped, and that is printed explicitly — it
+is never counted as success.
 
-### `--stack` filtri
+### The `--stack` filter
 
 ```bash
-./scripts/run.sh --stack node lint     # faqat node papkalari
-./scripts/run.sh --stack python test   # faqat python papkalari
+./scripts/run.sh --stack node lint     # node directories only
+./scripts/run.sh --stack python test   # python directories only
 ```
 
-CI da har bir job faqat o'z tilining vositalarini o'rnatadi (node job'ida `uv` yo'q, python job'ida `npm` kerak emas). Filtrsiz node job'i python papkasiga ham urinardi va xato berardi — shuning uchun CI har doim `--stack` bilan chaqiradi.
+In CI each job installs only its own toolchain (the node job has no `uv`, the
+python job does not need `npm`). Without the filter the node job would also try
+to handle the python directory and fail, so CI always passes `--stack`.
 
-## Yangi skript qo'shish
+## Language
 
-1. `scripts/` ichida `*.sh` fayl yarating, boshiga `source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"` qo'ying.
-2. `chmod +x` qiling — `doctor.sh` buni tekshiradi.
-3. Kerak bo'lsa `Makefile` ga target qo'shing (`## izoh` bilan — u `make help` da chiqadi).
+Script output is available in English, Uzbek and Russian:
+
+```bash
+STARTER_LANG=uz make doctor
+STARTER_LANG=ru ./scripts/run.sh lint
+```
+
+Without `STARTER_LANG` the language is detected from the system locale
+(`LC_ALL` / `LC_MESSAGES` / `LANG`) and falls back to English.
+
+Message catalogues live in `scripts/lang/`. `en.sh` is the reference: every
+language file must define the **same keys** with the **same number and order of
+`%s` placeholders`**. When you add a user-facing string, add it to all three.
+
+> Note: bash single-quoted strings cannot contain an escaped `'`. The Uzbek
+> catalogue therefore uses the correct Uzbek letters `oʻ`, `gʻ` (U+02BB) and
+> `ʼ` (U+02BC), which is also the proper orthography.
+
+## Adding a script
+
+1. Create `scripts/<name>.sh` starting with
+   `source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"`.
+2. `chmod +x` it — `doctor.sh` checks this.
+3. Add a `Makefile` target if useful (with a `## comment`, which shows up in
+   `make help`).

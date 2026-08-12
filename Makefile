@@ -3,50 +3,52 @@
 
 SHELL := /bin/bash
 
-help: ## Buyruqlar ro'yxati
+help: ## List every command
 	@echo "Universal Project Template"
 	@echo
 	@grep -hE '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN {FS = ":.*?## "} {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
 	@echo
+	@echo "  Script language: STARTER_LANG=en|uz|ru (auto-detected by default)"
+	@echo
 
-setup: ## .env yaratadi va dependencylarni o'rnatadi
+setup: ## Create .env and install dependencies
 	@./scripts/setup.sh
 
-install: ## Faqat dependencylarni o'rnatadi
+install: ## Install dependencies only
 	@./scripts/run.sh install
 
-dev: ## Lokal infratuzilmani ko'taradi (postgres)
+dev: ## Start local infrastructure (postgres)
 	docker compose up -d
 	@echo
 	@docker compose ps
 
-dev-queue: ## Infratuzilma + redis (worker uchun)
+dev-queue: ## Infrastructure plus redis (for the worker)
 	docker compose --profile queue up -d
 	@echo
 	@docker compose --profile queue ps
 
-down: ## Containerlarni to'xtatadi
+down: ## Stop the containers
 	docker compose --profile queue down
 
-logs: ## Container loglarini kuzatadi
+logs: ## Follow container logs
 	docker compose logs -f --tail=100
 
-ps: ## Container holati
+ps: ## Container status
 	docker compose ps
 
-lint: ## Barcha topilgan app/service uchun lint
+lint: ## Lint every detected app/service
 	@./scripts/run.sh lint
 
-test: ## Barcha topilgan app/service uchun test
+test: ## Test every detected app/service
 	@./scripts/run.sh test
 
-build: ## Barcha topilgan app/service uchun build
+build: ## Build every detected app/service
 	@./scripts/run.sh build
 
-doctor: ## Repo sog'lig'ini tekshiradi (CI ham shuni chaqiradi)
+doctor: ## Check repository health (CI runs this too)
 	@./scripts/doctor.sh
 
-clean: ## Containerlar va volumelarni o'chiradi (MA'LUMOT YO'QOLADI)
-	@printf 'Bu database ma\''lumotlarini o\''chiradi. Davom etilsinmi? [y/N] ' && read ans && [ "$$ans" = "y" ]
+clean: ## Remove containers and volumes (DATA IS LOST)
+	@printf 'This deletes the database data. Continue? [y/N] ' && read ans && [ "$$ans" = "y" ]
 	docker compose --profile queue down -v

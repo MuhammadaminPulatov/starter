@@ -1,10 +1,10 @@
-# Lokal dasturlash infratuzilmasi.
-# Barcha qiymatlar .env dan o'qiladi; .env yo'q bo'lsa quyidagi default'lar ishlatiladi.
+# Local development infrastructure.
+# Every value is read from .env; the defaults below apply when .env is absent.
 #
-#   make dev         → faqat postgres
-#   make dev-queue   → postgres + redis (services/worker uchun)
+#   make dev         → postgres only
+#   make dev-queue   → postgres + redis (for services/worker)
 #
-# Ilova servislarini qo'shish uchun docker-compose.override.yml.example ga qarang.
+# To run your own app services, see docker-compose.override.yml.example.
 
 name: ${COMPOSE_PROJECT_NAME:-project}
 
@@ -20,7 +20,7 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      # infrastructure/database ichidagi *.sql fayllar birinchi ishga tushishda bajariladi
+      # *.sql files in infrastructure/database run on first start
       - ./infrastructure/database:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-app} -d ${POSTGRES_DB:-app_db}"]

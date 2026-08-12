@@ -1,9 +1,11 @@
 # packages/sdk
 
-API mijoz kutubxonasi. `apps/*` backendga to'g'ridan-to'g'ri `fetch` qilmaydi — shu SDK orqali chaqiradi.
+The API client library. Apps in `apps/` do not `fetch` the backend directly —
+they call through this SDK.
 
-**Nima beradi:** tiplangan metodlar, autentifikatsiya headerlari, xatolarni bir xil shaklga keltirish, retry.
+**What it provides:** typed methods, auth headers, one consistent error shape,
+retries.
 
-`packages/types` ga bog'liq bo'lishi normal.
+Depending on `packages/types` is expected.
 
-**Ishlatmasangiz:** bu papkani o'chiring.
+**Not using it?** Delete this directory.

@@ -1,22 +1,22 @@
 ---
 name: Feature
-about: Yangi funksiya taklif qilish
+about: Suggest a new capability
 labels: enhancement
 ---
 
-## Muammo
+## Problem
 
-<!-- Qaysi foydalanuvchi nima qila olmayapti? Yechimni emas, muammoni yozing. -->
+<!-- Which user cannot do what? Describe the problem, not the solution. -->
 
-## Taklif qilinayotgan yechim
+## Proposed solution
 
-## Muvaffaqiyat mezoni
+## Success criteria
 
-<!-- Buni qanday o'lchaymiz? Qachon "bajarildi" deymiz? -->
+<!-- How do we measure this? When is it "done"? -->
 
-## Ta'sir doirasi
+## Scope of impact
 
-- [ ] API o'zgaradi (`docs/api/openapi.yaml`)
-- [ ] Database sxemasi o'zgaradi (migration kerak)
-- [ ] Yangi environment o'zgaruvchisi kerak
-- [ ] Buzuvchi o'zgarish (breaking change)
+- [ ] API changes (`docs/api/openapi.yaml`)
+- [ ] Database schema changes (migration needed)
+- [ ] New environment variable needed
+- [ ] Breaking change

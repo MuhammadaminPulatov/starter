@@ -1,14 +1,14 @@
 # Changelog
 
-Bu faylda foydalanuvchiga ta'sir qiladigan muhim o'zgarishlar qayd etiladi.
+All notable, user-visible changes are recorded here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-versiyalash: [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-Bo'lim nomlari: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, `Security`.
+Section names: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, `Security`.
 
 ## [Unreleased]
 
 ### Added
 
-- Boshlang'ich loyiha strukturasi.
+- Initial project structure.

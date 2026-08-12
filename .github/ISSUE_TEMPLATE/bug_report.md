@@ -1,25 +1,26 @@
 ---
 name: Bug
-about: Ishlamayotgan narsani xabar qilish
+about: Report something that does not work
 labels: bug
 ---
 
-## Nima bo'ldi
+## What happened
 
-## Nima bo'lishi kerak edi
+## What should have happened
 
-## Qanday takrorlash
+## How to reproduce
 
 1.
 2.
 3.
 
-## Muhit
+## Environment
 
-- Muhit: development / staging / production
-- Versiya yoki commit:
-- Brauzer / qurilma (agar tegishli bo'lsa):
+- Environment: development / staging / production
+- Version or commit:
+- Browser / device (if relevant):
+- `STARTER_LANG` (if the problem is in script output):
 
-## Log yoki skrinshot
+## Logs or screenshots
 
-<!-- Secret, token va shaxsiy ma'lumotlarni olib tashlang. -->
+<!-- Remove secrets, tokens and personal data. -->

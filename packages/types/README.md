@@ -1,10 +1,11 @@
 # packages/types
 
-Frontend, backend va bot bir xil ishlatadigan tip va validatsiya sxemalari.
+Types and validation schemas shared by the frontend, backend and bot.
 
-**Nima keladi:** domen tiplari (`User`, `Order`), API request/response shakllari, enumlar, `zod`/`pydantic` sxemalari.
+**What belongs here:** domain types (`User`, `Order`), API request/response
+shapes, enums, `zod`/`pydantic` schemas.
 
-**Qoida:** bu paket hech narsaga bog'liq bo'lmasin — u eng past qatlam.
-API shakli o'zgarsa, `docs/api/openapi.yaml` bilan mos bo'lishi kerak.
+**Rule:** this package depends on nothing else — it is the bottom layer. When
+an API shape changes, keep it in sync with `docs/api/openapi.yaml`.
 
-**Ishlatmasangiz:** bu papkani o'chiring.
+**Not using it?** Delete this directory.

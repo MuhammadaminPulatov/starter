@@ -1,37 +1,42 @@
-# Muammolarni hal qilish
+# Troubleshooting
 
-Birinchi qadam har doim bir xil:
+The first step is always the same:
 
 ```bash
 make doctor
 ```
 
-U `.env` pariteti, sinig' havolalar va yetishmayotgan vositalarni ko'rsatadi.
+It reports `.env` parity, broken documentation links and missing tools.
 
-## Ilova ishga tushmasa
+## The app will not start
 
-1. `.env` qiymatlarini `.env.example` bilan solishtiring (`make doctor` shuni tekshiradi).
-2. Database va boshqa kerakli containerlar ishlayotganini tekshiring: `docker compose ps`.
-3. Ilova loglaridagi **birinchi** xatoni toping — oxirgisini emas: `docker compose logs --tail=200`.
+1. Compare `.env` against `.env.example` (`make doctor` does this for you).
+2. Check that the containers are running: `docker compose ps`.
+3. Find the **first** error in the logs, not the last:
+   `docker compose logs --tail=200`.
 
-## `make dev` port xatosi bersa
+## `make dev` reports a port conflict
 
-5432 yoki 6379 port band. `.env` da `POSTGRES_PORT` yoki `REDIS_PORT` ni o'zgartiring.
+Port 5432 or 6379 is already in use. Change `POSTGRES_PORT` or `REDIS_PORT`
+in `.env`.
 
-## Container ichidan databasega ulanib bo'lmasa
+## Cannot reach the database from inside a container
 
-`DATABASE_URL` da `localhost` turibdi. Container ichidan host nomi `postgres` bo'lishi kerak — `.env.example` dagi izohga qarang.
+`DATABASE_URL` still points at `localhost`. From inside a container the host
+name is `postgres` — see the comment in `.env.example`.
 
-## API xato qaytarsa
+## `make lint` / `make test` do nothing
 
-1. `docs/api/openapi.yaml` yoki Swagger orqali request formatini tekshiring.
-2. Authentication va ruxsatlarni tekshiring.
-3. Service loglari va database ulanishini tekshiring.
+That is expected while the template is empty. The script reports how many
+directories were skipped. Once you add code with a `package.json`,
+`pyproject.toml` or `go.mod`, it is picked up automatically.
 
-## `make lint` / `make test` hech narsa qilmasa
+## Script messages are in the wrong language
 
-Bu normal — hali kod yo'q. Skript nechta papka o'tkazib yuborilganini yozib beradi. Kod qo'shilgach (`package.json`, `pyproject.toml`, `go.mod` bilan) u avtomatik topiladi.
+Set the language explicitly: `STARTER_LANG=en|uz|ru make doctor`. Without it,
+the language is detected from your system locale and falls back to English.
 
-## Production muammosi
+## A production problem
 
-[`docs/operations/runbook.md`](../operations/runbook.md) bo'yicha harakat qiling va hodisadan keyin sababini yozib qo'ying.
+Follow [`docs/operations/runbook.md`](../operations/runbook.md) and write down
+the cause afterwards.

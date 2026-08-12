@@ -1,5 +1,7 @@
 # design/brand
 
-Brend qoidalari: ranglar (hex va token nomlari), shriftlar, bo'shliq shkalasi, ohang, logotipdan foydalanish qoidalari.
+Brand guidelines: colours (hex plus token names), typefaces, spacing scale,
+tone of voice, logo usage rules.
 
-Bu qiymatlar kodda `packages/config` yoki `packages/ui` ichidagi design tokenlarga aylanadi — ikki joyda qo'lda takrorlanmasin.
+These values become design tokens in `packages/config` or `packages/ui` — do not
+maintain them by hand in two places.

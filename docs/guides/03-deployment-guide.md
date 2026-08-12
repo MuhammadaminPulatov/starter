@@ -1,26 +1,28 @@
-# Deploy qo'llanmasi
+# Deployment guide
 
-Bu hujjat **qanday** qilish haqida. Muhitlar, siyosat va majburiy shartlar: [`docs/05-deployment.md`](../05-deployment.md).
+This document covers **how**. For environments, policy and the required
+pre-flight checks see [`docs/05-deployment.md`](../05-deployment.md).
 
 ## Staging
 
-1. Pull request tekshiruvlari muvaffaqiyatli tugaganini tasdiqlang.
-2. Kerakli migrationlarni tekshiring — qaytarilishi mumkinmi?
-3. Yangi environment o'zgaruvchilari staging'ga qo'shilganini tasdiqlang.
-4. Staging environmentga deploy qiling.
-5. Muhim user flow va API endpointlarni sinang.
-6. Loglarda yangi xato turlari paydo bo'lmaganini tekshiring.
+1. Confirm every pull request check passed.
+2. Review the pending migrations — are they reversible?
+3. Confirm new environment variables exist in staging.
+4. Deploy to staging.
+5. Exercise the important user flows and API endpoints.
+6. Check the logs for new error types.
 
 ## Production
 
-1. `docs/05-deployment.md` dagi "Deploy oldidan majburiy shartlar" ro'yxatini to'liq bajaring.
-2. Database backup mavjudligini va yangiligini tasdiqlang.
-3. Production environment qiymatlarini tekshiring.
-4. Deploy qiling.
-5. Health check, log va monitoringni kamida 15 daqiqa kuzating.
-6. Muammo bo'lsa — tuzatishga urinmang, [`docs/operations/runbook.md`](../operations/runbook.md) bo'yicha rollback qiling.
+1. Complete the "Required before deploying" checklist in `docs/05-deployment.md`.
+2. Confirm a recent database backup exists.
+3. Verify the production environment values.
+4. Deploy.
+5. Watch health checks, logs and monitoring for at least 15 minutes.
+6. If something is wrong, do not try to patch forward — roll back using
+   [`docs/operations/runbook.md`](../operations/runbook.md).
 
-## Deploydan keyin
+## After deploying
 
-- `CHANGELOG.md` dagi `Unreleased` bo'limini versiyaga aylantiring.
-- Jamoaga nima deploy qilinganini qisqa yozing.
+- Turn the `Unreleased` section of `CHANGELOG.md` into a released version.
+- Tell the team briefly what shipped.

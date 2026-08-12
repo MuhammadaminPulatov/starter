@@ -1,31 +1,33 @@
-# Dasturlash tartibi
+# Development workflow
 
-## Vazifani boshlash
+## Starting a task
 
-1. Talabni [`docs/01-requirements.md`](../01-requirements.md) ichida tekshiring.
-2. Tegishli modul hujjatini [`docs/modules/`](../modules/README.md) ichida o'qing yoki yarating.
-3. Yangi branch yarating: `feature/short-name`.
+1. Check the requirement in [`docs/01-requirements.md`](../01-requirements.md).
+2. Read or create the module document in [`docs/modules/`](../modules/README.md).
+3. Create a branch: `feature/short-name`.
 
-## Kod yozish
+## Writing code
 
-1. Kodni tegishli `apps/`, `services/` yoki `packages/` ichiga joylashtiring.
-2. Test qo'shing yoki yangilang.
-3. API o'zgarsa [`docs/api/openapi.yaml`](../api/openapi.yaml) ni, DB o'zgarsa [`docs/04-database.md`](../04-database.md) ni yangilang.
-4. Yangi environment o'zgaruvchisi qo'shsangiz, `.env.example` ga ham qo'shing.
-5. Muhim qaror bo'lsa [`docs/adr/`](../adr/) ichida ADR yozing.
+1. Put the code in the right place: `apps/`, `services/` or `packages/`.
+2. Add or update a test.
+3. If the API changes, update [`docs/api/openapi.yaml`](../api/openapi.yaml);
+   if the database changes, update [`docs/04-database.md`](../04-database.md).
+4. If you add an environment variable, add it to `.env.example` too.
+5. If you make a significant decision, write an ADR in [`docs/adr/`](../adr/).
 
-## Pull request oldidan
+## Before opening a pull request
 
 ```bash
 make lint && make test && make build && make doctor
 ```
 
-- [ ] Lint bajarildi.
-- [ ] Test bajarildi.
-- [ ] Build bajarildi.
-- [ ] `make doctor` toza.
-- [ ] [`PROJECT_INDEX.md`](../../PROJECT_INDEX.md) kerak bo'lsa yangilandi.
-- [ ] `CHANGELOG.md` dagi `Unreleased` yangilandi (foydalanuvchiga ta'sir qilsa).
-- [ ] Hujjatlar yangilandi.
+- [ ] Lint passed.
+- [ ] Tests passed.
+- [ ] Build passed.
+- [ ] `make doctor` is clean.
+- [ ] [`PROJECT_INDEX.md`](../../PROJECT_INDEX.md) updated if needed.
+- [ ] `CHANGELOG.md` updated if the change is user-visible.
+- [ ] Documentation updated.
 
-Batafsil qoidalar: [`CONTRIBUTING.md`](../../CONTRIBUTING.md) va [`AGENTS.md`](../../AGENTS.md).
+Full rules: [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and
+[`AGENTS.md`](../../AGENTS.md).

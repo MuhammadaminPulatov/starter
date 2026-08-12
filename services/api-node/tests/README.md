@@ -1,5 +1,6 @@
 # tests
 
-Testlar. Tavsiya: `unit/` (tez, tashqi bog'liqliksiz) va `integration/` (haqiqiy database bilan).
+Tests. Suggested split: `unit/` (fast, no external dependencies) and
+`integration/` (against a real database).
 
-Har bir yangi endpoint va tuzatilgan bug uchun test bo'lishi shart.
+Every new endpoint and every fixed bug needs a test.

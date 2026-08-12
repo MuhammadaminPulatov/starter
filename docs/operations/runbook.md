@@ -1,79 +1,81 @@
 # Runbook
 
-Production muammosi paytida ochiladigan fayl. Muhokama emas — harakat.
+The file you open while production is broken. Not for discussion — for action.
 
-## 0. Birinchi 5 daqiqa
+## 0. First five minutes
 
-1. **Ta'sirni aniqlang:** kim, nima qila olmayapti, qachondan beri?
-2. **O'zgarishni toping:** oxirgi deploy qachon bo'ldi? `git log --oneline -10`
-3. **Xabar bering:** jamoaga qisqa xabar — "X ishlamayapti, tekshiryapman".
-4. Agar oxirgi deploy sabab bo'lsa — tuzatishga urinmang, **rollback qiling** (3-bo'lim).
+1. **Scope the impact:** who cannot do what, and since when?
+2. **Find the change:** when was the last deploy? `git log --oneline -10`
+3. **Tell the team:** a short message — "X is broken, I'm looking".
+4. If the last deploy caused it, do not patch forward — **roll back** (section 3).
 
 ## 1. Health check
 
 ```bash
-# Servislar holati
+# Service status
 docker compose ps
 
-# Loglardagi oxirgi xatolar
+# Recent errors
 docker compose logs --tail=200 --since=15m
 
-# Database ulanishi
+# Database connectivity
 docker compose exec postgres pg_isready -U "$POSTGRES_USER"
 ```
 
-Tekshiriladigan tartib: **ilova → API → database → tashqi servislar**.
+Check in this order: **app → API → database → third-party services**.
 
-## 2. Keng tarqalgan hodisalar
+## 2. Common incidents
 
-| Alomat | Birinchi tekshiruv | Odatdagi sabab |
+| Symptom | First check | Usual cause |
 | --- | --- | --- |
-| Barcha so'rovlar 5xx | Ilova logi, container holati | Yomon deploy, yetishmayotgan env o'zgaruvchi |
-| So'rovlar sekin | Database connection pool, sekin query logi | Indeks yo'q, N+1 query |
-| 401/403 to'lqini | Token muddati, kalit rotatsiyasi | Muddati o'tgan secret |
-| Worker ish bajarmayapti | Navbat uzunligi, redis ulanishi | Worker o'lgan yoki broker uzilgan |
-| Disk to'ldi | `df -h`, log hajmi | Log rotatsiyasi sozlanmagan |
+| All requests 5xx | App logs, container status | Bad deploy, missing env var |
+| Requests are slow | Connection pool, slow query log | Missing index, N+1 query |
+| Wave of 401/403 | Token expiry, key rotation | Expired secret |
+| Worker not processing | Queue depth, redis connectivity | Worker died, broker disconnected |
+| Disk full | `df -h`, log sizes | Log rotation not configured |
 
 ## 3. Rollback
 
 ```bash
-# 1. Oxirgi ishlagan versiyani toping
+# 1. Find the last good version
 git log --oneline --decorate -20
 
-# 2. O'sha versiyaga deploy qiling (platformaga qarab)
-#    Tavsiya: yangi commit bilan revert, force push emas
+# 2. Deploy it (depends on your platform)
+#    Prefer a revert commit over a force push
 git revert <bad-commit-sha>
 ```
 
-**Migration bo'lgan bo'lsa:** avval migration'ni qaytarish mumkinligini tekshiring. Ma'lumot yo'qotadigan migration'ni qaytarmang — o'rniga oldinga tuzatuvchi migration yozing.
+**If a migration shipped:** check first whether it can be reversed. Do not
+reverse a migration that loses data — write a forward fix instead.
 
-## 4. Backupdan tiklash
+## 4. Restore from backup
 
 ```bash
-# Backup ro'yxati
-ls -lh <backup-joylashuvi>
+# List the backups
+ls -lh <backup-location>
 
-# Tiklashdan OLDIN joriy holatni saqlang
+# Save the current state BEFORE restoring
 pg_dump "$DATABASE_URL" > before-restore-$(date +%F-%H%M).sql
 
-# Tiklash
-psql "$DATABASE_URL" < <backup-fayli>.sql
+# Restore
+psql "$DATABASE_URL" < <backup-file>.sql
 ```
 
-Tiklashdan keyin: migration versiyasini, asosiy jadval qatorlar sonini va bitta haqiqiy user flow'ni tekshiring.
+After restoring, verify: migration version, row counts on key tables, and one
+real user flow.
 
-## 5. Hodisadan keyin
+## 5. After the incident
 
-Hodisa yopilgach `docs/adr/` yoki alohida incident faylida yozing:
+Once it is closed, write it down in `docs/adr/` or a dedicated incident file:
 
-- Nima bo'ldi va qancha davom etdi.
-- Ildiz sabab (kimning aybi emas — qaysi jarayon yo'qligi).
-- Qaytarilmasligi uchun qilinadigan aniq o'zgarish + kim va qachon qiladi.
+- What happened and how long it lasted.
+- The root cause — not who made the mistake, but which safeguard was missing.
+- The concrete change that prevents a repeat, plus who does it and when.
 
-## Aloqa
+## Contacts
 
-| Rol | Kim | Kanal |
+| Role | Who | Channel |
 | --- | --- | --- |
-| Loyiha egasi | _to'ldiring_ | _to'ldiring_ |
-| Deploy javobgari | _to'ldiring_ | _to'ldiring_ |
-| Database javobgari | _to'ldiring_ | _to'ldiring_ |
+| Project owner | _fill in_ | _fill in_ |
+| Deploy owner | _fill in_ | _fill in_ |
+| Database owner | _fill in_ | _fill in_ |

@@ -1,38 +1,56 @@
-# Boshlash qo'llanmasi
+# Getting started
 
-## 1. Loyihani tayyorlash
+**English** · [Oʻzbekcha](01-getting-started.uz.md) · [Русский](01-getting-started.ru.md)
+
+## 1. Prepare the project
 
 ```bash
-# Yangi loyiha bo'lsa — bir marta bajariladi
+# New project from the template — run once
 ./scripts/init-project.sh
 
-# Mavjud loyihaga qo'shilyapsizmi — bundan boshlang
-make setup    # .env yaratadi va dependencylarni o'rnatadi
-make dev      # postgres va boshqa lokal servislarni ko'taradi
+# Joining an existing project — start here
+make setup    # creates .env and installs dependencies
+make dev      # starts postgres and other local services
 ```
 
-`.env` fayliga maxfiy qiymatlarni qo'lda kiriting — ular repozitoriyga hech qachon qo'shilmaydi.
+Fill in the secret values in `.env` by hand — that file is never committed.
 
-## 2. Birinchi o'qiladigan fayllar
+Need the queue too? `make dev-queue` also starts redis.
+
+## 2. Read these first
 
 1. [`README.md`](../../README.md)
-2. [`PROJECT_INDEX.md`](../../PROJECT_INDEX.md) — nima qayerda
-3. [`docs/00-overview.md`](../00-overview.md) — loyiha nima uchun kerak
-4. [`docs/02-architecture.md`](../02-architecture.md) — qismlar qanday bog'langan
-5. [`AGENTS.md`](../../AGENTS.md) — kod yozish qoidalari
+2. [`PROJECT_INDEX.md`](../../PROJECT_INDEX.md) — what lives where
+3. [`docs/00-overview.md`](../00-overview.md) — why the project exists
+4. [`docs/02-architecture.md`](../02-architecture.md) — how the pieces connect
+5. [`AGENTS.md`](../../AGENTS.md) — the rules for writing code here
 
-## 3. Tekshiruv
+## 3. Verify
 
 ```bash
-make doctor   # env pariteti, sinig' havolalar, kerakli vositalar
+make doctor   # env parity, broken links, missing tools
 make lint
 make test
 ```
 
-Qo'lda tasdiqlang:
+Confirm by hand:
 
-- Ilova lokal muhitda ochiladi.
-- API hujjati ishlaydi (`/docs` yoki `docs/api/openapi.yaml`).
-- Testlar muvaffaqiyatli yakunlanadi.
+- The application opens locally.
+- The API documentation works (`/docs`, or `docs/api/openapi.yaml`).
+- The tests pass.
 
-Biror narsa ishlamasa: [`04-troubleshooting.md`](04-troubleshooting.md).
+`make lint` and `make test` doing nothing is expected while the template is
+empty — they report how many directories were skipped.
+
+## 4. Set the language
+
+Script output follows `STARTER_LANG`, or your system locale, falling back to
+English:
+
+```bash
+STARTER_LANG=uz make doctor
+```
+
+## Something not working?
+
+See [`04-troubleshooting.md`](04-troubleshooting.md).

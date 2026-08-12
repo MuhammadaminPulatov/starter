@@ -1,5 +1,7 @@
 # infrastructure/monitoring
 
-Monitoring va alert konfiguratsiyasi: Prometheus, Grafana dashboardlari, alert qoidalari, log yig'ish.
+Monitoring and alerting configuration: Prometheus, Grafana dashboards, alert
+rules, log shipping.
 
-**Minimal to'plam:** xato darajasi, javob vaqti (p95), navbat uzunligi, disk va xotira. Alert kelganda nima qilish — `docs/operations/runbook.md` da.
+**Minimum set:** error rate, response time (p95), queue depth, disk and memory.
+What to do when an alert fires belongs in `docs/operations/runbook.md`.

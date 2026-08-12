@@ -1,16 +1,17 @@
 # apps/mobile
 
-iOS va Android ilova.
+The iOS and Android application.
 
-**Qanday boshlash**
+**Getting started**
 
 ```bash
 # Expo (React Native)
 npx create-expo-app apps/mobile
-# yoki Flutter
+# or Flutter
 flutter create apps/mobile
 ```
 
-**Eslatma:** umumiy tiplarni `packages/types` dan, API mijozini `packages/sdk` dan oling. API URL `.env` dan keladi, kodga yozilmaydi.
+**Note:** take shared types from `packages/types` and the API client from
+`packages/sdk`. The API URL comes from `.env`, never hardcoded.
 
-**Ishlatmasangiz:** bu papkani o'chiring. `make` va CI hamon ishlaydi.
+**Not using it?** Delete this directory. `make` and CI keep working.

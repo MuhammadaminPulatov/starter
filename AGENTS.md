@@ -1,25 +1,32 @@
-# Agent qoidalari
+# Agent rules
 
-Bu fayl — AI agentlar (Claude Code, Codex, Cursor va boshqalar) va yangi dasturchilar uchun majburiy kontrakt.
-`CLAUDE.md` shu faylga havola qiladi, shuning uchun qoidalarni faqat shu yerda tahrirlang.
+This file is the binding contract for AI agents (Claude Code, Codex, Cursor and
+others) and for new contributors. `CLAUDE.md` imports it, so edit the rules only
+here.
 
-## Kod yozishdan oldin
+## Before writing code
 
-1. `PROJECT_INDEX.md` ni o'qing — qaysi papka nima uchun ekanini biling.
-2. Vazifaga tegishli hujjatni o'qing: `docs/01-requirements.md`, `docs/02-architecture.md` va agar mavjud bo'lsa `docs/modules/<modul>.md`.
-3. Mavjud kodni qidiring. Yangi utilita yozishdan oldin `packages/` ichida shunga o'xshash narsa bor-yo'qligini tekshiring.
+1. Read `PROJECT_INDEX.md` to learn what each directory is for.
+2. Read the relevant documents: `docs/01-requirements.md`,
+   `docs/02-architecture.md` and, if it exists, `docs/modules/<module>.md`.
+3. Search the existing code first. Before writing a new utility, check whether
+   `packages/` already has something equivalent.
 
-## Kod yozishda
+## While writing code
 
-- Mavjud uslub, nomlash va arxitekturani saqlang. Yangi pattern kiritmang — atrofdagi kodga o'xshating.
-- Kodni to'g'ri joyga qo'ying: foydalanuvchi ko'radigan ilova → `apps/`, biznes logika va API → `services/`, qayta ishlatiladigan kod → `packages/`.
-- Har o'zgarish bilan mos testni qo'shing yoki yangilang.
-- **Secret, token, parol yoki API kalitini kodga, testga yoki logga yozmang.** Ular faqat `.env` da bo'ladi, `.env.example` ga esa faqat bo'sh placeholder qo'shiladi.
-- Yangi environment o'zgaruvchisi qo'shsangiz, uni `.env.example` ga ham qo'shing — CI bu paritetni tekshiradi.
+- Match the surrounding style, naming and architecture. Do not introduce a new
+  pattern where an established one already fits.
+- Put code where it belongs: user-facing apps in `apps/`, business logic and
+  APIs in `services/`, reusable code in `packages/`.
+- Add or update a test with every change.
+- **Never write a secret, token, password or API key into code, tests or logs.**
+  They live only in `.env`; `.env.example` gets an empty placeholder.
+- When you add an environment variable, add it to `.env.example` as well — CI
+  verifies that the two files agree.
 
-## Kod yozgandan keyin
+## After writing code
 
-Quyidagilar PR oldidan bajarilishi shart:
+Run these before opening a pull request:
 
 ```bash
 make lint
@@ -28,24 +35,31 @@ make build
 make doctor
 ```
 
-Yangilanishi kerak bo'lgan hujjatlar:
+Documentation that must be kept in sync:
 
-| O'zgarish | Yangilanadigan fayl |
+| Change | File to update |
 | --- | --- |
-| Yangi papka yoki modul | `PROJECT_INDEX.md` |
+| New directory or module | `PROJECT_INDEX.md` |
 | API endpoint | `docs/api/openapi.yaml` |
-| Database sxemasi | `docs/04-database.md` + migration |
-| Muhim texnik qaror | `docs/adr/` ichida yangi ADR |
-| Foydalanuvchiga ta'sir qiladigan o'zgarish | `CHANGELOG.md` (`Unreleased` bo'limi) |
+| Database schema | `docs/04-database.md` plus a migration |
+| Significant technical decision | a new ADR in `docs/adr/` |
+| User-visible change | `CHANGELOG.md` (`Unreleased` section) |
 
-## Qilmaslik kerak
+## Do not
 
-- Test yoki lint'ni "vaqtincha" o'chirib qo'yish.
-- Xatoni yashirish uchun `try/except` yoki `catch {}` ni bo'sh qoldirish.
-- Repozitoriyga `.env`, dump, backup yoki production ma'lumotini qo'shish.
-- Bir PR ichida bir nechta bog'liq bo'lmagan o'zgarishni aralashtirish.
-- So'ralmagan katta refactor qilish.
+- Disable a test or a linter "temporarily".
+- Swallow errors with an empty `try/except` or `catch {}`.
+- Commit `.env`, dumps, backups or production data.
+- Mix several unrelated changes into one pull request.
+- Perform a large refactor that was not requested.
 
-## Bu template haqida
+## About this template
 
-Bu ko'p-stack starter. Barcha `apps/` va `services/` papkalari **ixtiyoriy**. Ishlatilmaydigani o'chirilsa, `make` buyruqlari va CI hamon ishlaydi — hamma avtomatika manifest fayliga qarab aniqlash (detection) asosida qurilgan. Shuning uchun avtomatikaga qattiq yo'l (hardcoded path) qo'shmang.
+This is a multi-stack starter. Every directory under `apps/` and `services/` is
+**optional**. When one is deleted, the `make` targets and CI keep working —
+all automation is detection-based, driven by manifest files. For that reason,
+never add a hardcoded path to the automation.
+
+Script output is available in English, Uzbek and Russian via `STARTER_LANG`;
+message catalogues live in `scripts/lang/`. If you add a user-facing string to a
+script, add the key to **all three** catalogues.

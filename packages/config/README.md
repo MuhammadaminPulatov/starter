@@ -1,7 +1,8 @@
 # packages/config
 
-Umumiy konfiguratsiya: eslint, prettier, tsconfig, ruff, tailwind preset.
+Shared configuration: eslint, prettier, tsconfig, ruff, tailwind preset.
 
-**Nima uchun:** har bir app/service o'z konfiguratsiyasini nol dan yozmasin — shu yerdagini `extends` qilsin. Shunda qoida bitta joyda o'zgaradi.
+**Why:** so that each app and service extends one config instead of writing its
+own from scratch. A rule then changes in exactly one place.
 
-**Ishlatmasangiz:** bu papkani o'chiring.
+**Not using it?** Delete this directory.

@@ -1,24 +1,26 @@
 # services/worker
 
-Fon vazifalari: navbat (queue), cron, uzoq davom etadigan ishlar, email/notification yuborish.
+Background work: queues, cron, long-running jobs, sending email and
+notifications.
 
-**Qanday boshlash**
+**Getting started**
 
 ```bash
 # Python
-uv add celery redis        # yoki arq, dramatiq
+uv add celery redis        # or arq, dramatiq
 # Node
 npm i bullmq ioredis
 ```
 
-**Broker:** lokal redis `make dev` bilan avtomatik ko'tarilmaydi — u `queue` profilida:
+**Broker:** redis is not started by `make dev` — it lives in the `queue` profile:
 
 ```bash
-docker compose --profile queue up -d
+make dev-queue
 ```
 
-`.env` dagi `REDIS_URL` ni ishlating.
+Use `REDIS_URL` from `.env`.
 
-**Qoida:** har bir vazifa idempotent bo'lsin — ikki marta bajarilsa ham natija bir xil bo'lishi kerak.
+**Rule:** make every job idempotent — running it twice must produce the same
+result.
 
-**Ishlatmasangiz:** bu papkani o'chiring.
+**Not using it?** Delete this directory.

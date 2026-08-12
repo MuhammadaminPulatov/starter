@@ -1,28 +1,28 @@
 #!/usr/bin/env bash
 #
-# Loyihani ishga tayyorlaydi: .env yaratadi va dependencylarni o'rnatadi.
-# Bir necha marta ishga tushirish xavfsiz (idempotent).
+# Prepares the project: creates .env and installs dependencies.
+# Safe to run more than once (idempotent).
 
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
 cd "$REPO_ROOT"
 
-info ".env tekshirilmoqda"
+info "$T_SETUP_ENV_CHECK"
 if [ -f .env ]; then
-  ok ".env allaqachon mavjud — tegilmadi"
+  ok "$T_SETUP_ENV_EXISTS"
 else
-  [ -f .env.example ] || die ".env.example topilmadi"
+  [ -f .env.example ] || die "$T_SETUP_NO_EXAMPLE"
   cp .env.example .env
-  ok ".env yaratildi (.env.example dan)"
-  warn "Maxfiy qiymatlarni (JWT_SECRET, tokenlar) .env ichida to'ldiring"
+  ok "$T_SETUP_ENV_CREATED"
+  warn "$T_SETUP_FILL_SECRETS"
 fi
 
 echo
-info "Dependencylar o'rnatilmoqda"
+info "$T_SETUP_INSTALLING"
 "$REPO_ROOT/scripts/run.sh" install
 
 echo
-info "Keyingi qadamlar"
-echo "  make dev      — lokal infratuzilmani ko'tarish"
-echo "  make doctor   — hamma narsa joyidami tekshirish"
-echo "  make help     — barcha buyruqlar"
+info "$T_SETUP_NEXT"
+printf '%s\n' "$T_SETUP_NEXT_DEV"
+printf '%s\n' "$T_SETUP_NEXT_DOCTOR"
+printf '%s\n' "$T_SETUP_NEXT_HELP"

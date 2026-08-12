@@ -13,26 +13,26 @@ permissions:
   contents: read
 
 jobs:
-  # Har doim haqiqiy ish bajaradi — template bo'sh bo'lsa ham mazmunli.
+  # Always does real work — meaningful even while the template is empty.
   structure:
-    name: Struktura va hujjatlar
+    name: Structure and documentation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
 
-      # doctor.sh YAML tekshiruvini python3+pyyaml orqali bajaradi.
+      # doctor.sh runs its YAML check through python3 + pyyaml.
       - name: PyYAML
         run: python3 -m pip install --quiet pyyaml
 
-      - name: Doctor (havolalar, env pariteti, secret gigienasi, YAML)
+      - name: Doctor (links, env parity, secret hygiene, YAML)
         run: ./scripts/doctor.sh --ci
 
-      - name: Docker Compose konfiguratsiyasi
+      - name: Docker Compose configuration
         run: docker compose config --quiet && echo "docker-compose.yml OK"
 
-  # Qaysi stack borligini aniqlaydi — keyingi joblar shunga qarab ishlaydi.
+  # Detects which stacks exist — the jobs below run accordingly.
   detect:
-    name: Stacklarni aniqlash
+    name: Detect stacks
     runs-on: ubuntu-latest
     outputs:
       node: ${{ steps.scan.outputs.node }}
@@ -49,7 +49,7 @@ jobs:
           done
           echo "node=$node"     >> "$GITHUB_OUTPUT"
           echo "python=$python" >> "$GITHUB_OUTPUT"
-          echo "Topildi — node: $node, python: $python"
+          echo "Detected — node: $node, python: $python"
 
   node:
     name: Node (lint / test / build)
@@ -96,24 +96,24 @@ jobs:
       - run: ./scripts/run.sh --stack python lint
       - run: ./scripts/run.sh --stack python test
 
-  # Barcha kerakli joblar o'tganini bitta joyda tekshiradi.
-  # Branch protection uchun shu jobni "required" qilib qo'ying.
+  # Single place that confirms every required job passed.
+  # Make this the required check in branch protection.
   ci-ok:
-    name: CI natijasi
+    name: CI result
     if: always()
     needs: [structure, node, python]
     runs-on: ubuntu-latest
     steps:
-      - name: Natijani tekshirish
+      - name: Check results
         run: |
-          # 'skipped' normal (o'sha stack yo'q), 'failure'/'cancelled' esa yo'q.
+          # 'skipped' is fine (that stack is absent); 'failure'/'cancelled' is not.
           if [ "${{ needs.structure.result }}" != "success" ]; then
-            echo "structure job o'tmadi"; exit 1
+            echo "the structure job did not pass"; exit 1
           fi
           for r in "${{ needs.node.result }}" "${{ needs.python.result }}"; do
             case "$r" in
               success|skipped) ;;
-              *) echo "Job natijasi: $r"; exit 1 ;;
+              *) echo "Job result: $r"; exit 1 ;;
             esac
           done
-          echo "Barcha tekshiruvlar o'tdi"
+          echo "All checks passed"

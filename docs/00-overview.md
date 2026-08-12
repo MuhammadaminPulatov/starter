@@ -1,17 +1,17 @@
-# Loyiha overview
+# Overview
 
-## Muammo
+## Problem
 
-Bu yerga loyiha yechadigan muammoni yozing.
+Describe the problem this project solves.
 
-## Maqsad
+## Goal
 
-O'lchanadigan asosiy natijani yozing.
+Write down the primary, measurable outcome.
 
-## Foydalanuvchilar
+## Users
 
-Kim foydalanishi va ularning asosiy ehtiyojlarini yozing.
+Who uses this, and what do they need most?
 
 ## MVP
 
-Birinchi versiyada bo'lishi shart bo'lgan funksiyalarni yozing.
+The features that must exist in the first version.

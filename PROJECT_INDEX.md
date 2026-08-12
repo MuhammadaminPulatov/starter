@@ -1,67 +1,70 @@
 # Project Index
 
-Repozitoriya xaritasi. Yangi papka yoki modul qo'shsangiz, shu faylni yangilang.
+A map of the repository. Update this file whenever you add a directory or module.
 
-## Kirish nuqtalari
+## Entry points
 
-| Savol | Fayl |
+| Question | File |
 | --- | --- |
-| Loyiha nima qiladi? | `docs/00-overview.md` |
-| Nima qurilishi kerak? | `docs/01-requirements.md` |
-| Qismlar qanday bog'langan? | `docs/02-architecture.md` |
-| Qanday boshlayman? | `docs/guides/01-getting-started.md` |
-| Qanday ishlayman? | `docs/guides/02-development-workflow.md` |
-| Nima ishlamayapti? | `docs/guides/04-troubleshooting.md` |
-| Production yonyapti | `docs/operations/runbook.md` |
-| Agent qoidalari | `AGENTS.md` |
+| What does this project do? | `docs/00-overview.md` |
+| What has to be built? | `docs/01-requirements.md` |
+| How do the pieces fit together? | `docs/02-architecture.md` |
+| How do I get started? | `docs/guides/01-getting-started.md` |
+| How do I work day to day? | `docs/guides/02-development-workflow.md` |
+| Something is broken | `docs/guides/04-troubleshooting.md` |
+| Production is on fire | `docs/operations/runbook.md` |
+| Agent rules | `AGENTS.md` |
 
-## Papkalar
+## Directories
 
-### `apps/` — foydalanuvchi ko'radigan ilovalar
+### `apps/` — user-facing applications
 
-| Papka | Nima uchun | Holat |
+| Directory | Purpose | Status |
 | --- | --- | --- |
-| `apps/web` | Sayt, admin panel, dashboard | bo'sh |
-| `apps/mobile` | iOS/Android ilova | bo'sh |
-| `apps/bot` | Telegram / Discord / Slack bot | bo'sh |
+| `apps/web` | Website, admin panel, dashboard | empty |
+| `apps/mobile` | iOS/Android application | empty |
+| `apps/bot` | Telegram / Discord / Slack bot | empty |
 
-### `services/` — API va fon jarayonlari
+### `services/` — APIs and background work
 
-| Papka | Nima uchun | Holat |
+| Directory | Purpose | Status |
 | --- | --- | --- |
-| `services/api-node` | Node.js/TypeScript API | bo'sh |
-| `services/api-python` | Python FastAPI API | bo'sh |
-| `services/worker` | Navbat, cron, fon vazifalari | bo'sh |
+| `services/api-node` | Node.js/TypeScript API | empty |
+| `services/api-python` | Python FastAPI service | empty |
+| `services/worker` | Queues, cron, background jobs | empty |
 
-### `packages/` — qayta ishlatiladigan umumiy kod
+### `packages/` — shared, reusable code
 
-| Papka | Nima uchun | Holat |
+| Directory | Purpose | Status |
 | --- | --- | --- |
-| `packages/ui` | Umumiy UI komponentlar | bo'sh |
-| `packages/types` | Umumiy tip va sxemalar | bo'sh |
-| `packages/sdk` | API mijoz kutubxonasi | bo'sh |
-| `packages/config` | Umumiy lint/tsconfig/build konfiguratsiyasi | bo'sh |
+| `packages/ui` | Shared UI components | empty |
+| `packages/types` | Shared types and schemas | empty |
+| `packages/sdk` | API client library | empty |
+| `packages/config` | Shared lint/tsconfig/build config | empty |
 
-### Qolganlari
+### Everything else
 
-| Papka | Nima uchun |
+| Directory | Purpose |
 | --- | --- |
-| `docs/` | Hujjatlar, qarorlar (ADR), qo'llanmalar, runbook |
-| `infrastructure/` | Docker, nginx, terraform, monitoring, database konfiguratsiyasi |
-| `design/` | Figma havolalari, brend, eksport qilingan assetlar |
-| `scripts/` | `setup`, `run`, `doctor`, `init-project` avtomatika skriptlari |
-| `.github/` | CI workflow, PR/issue shablonlari, dependabot |
+| `docs/` | Documentation, decisions (ADR), guides, runbook |
+| `infrastructure/` | Docker, nginx, terraform, monitoring, database config |
+| `design/` | Figma links, brand, exported assets |
+| `scripts/` | `setup`, `run`, `doctor`, `init-project` automation |
+| `.github/` | CI workflow, PR/issue templates, dependabot |
 
-## Muhim ildiz fayllar
+## Important root files
 
-| Fayl | Nima uchun |
+| File | Purpose |
 | --- | --- |
-| `Makefile` | Barcha kundalik buyruqlar (`make help`) |
-| `docker-compose.yml` | Lokal infratuzilma (postgres, redis) |
-| `.env.example` | Barcha environment o'zgaruvchilari ro'yxati |
-| `scripts/run.sh` | Stackni aniqlab lint/test/build ishga tushiradi |
-| `scripts/doctor.sh` | Repo sog'lig'ini tekshiradi (CI ham shuni chaqiradi) |
+| `Makefile` | Every day-to-day command (`make help`) |
+| `docker-compose.yml` | Local infrastructure (postgres, redis) |
+| `.env.example` | The full list of environment variables |
+| `scripts/run.sh` | Detects each stack and runs lint/test/build |
+| `scripts/doctor.sh` | Checks repository health (CI calls it too) |
+| `scripts/lang/` | Message catalogues for English, Uzbek and Russian |
 
-## Holat ustuni haqida
+## About the status column
 
-`bo'sh` — papkada faqat `README.md` bor. Ishlatmoqchi bo'lsangiz README'dagi init buyrug'ini bajaring va bu jadvalni yangilang. Ishlatmasangiz papkani o'chiring — hech narsa sinmaydi.
+`empty` means the directory contains only a `README.md`. To start using it,
+follow the init command in that README and update this table. If you do not need
+it, delete the directory — nothing breaks.

@@ -1,7 +1,9 @@
 # design/assets
 
-Eksport qilingan tayyor fayllar: logo, ikonka, illyustratsiya, favicon, app store rasmlari.
+Exported, ready-to-use files: logos, icons, illustrations, favicons, app store
+imagery.
 
-**Qoida:** manba fayl (`.fig`, `.psd`) bu yerga qo'yilmaydi — faqat eksport natijasi. Manba Figma'da, havolasi `design/figma/README.md` da.
+**Rule:** source files (`.fig`, `.psd`) do not go here — only exports. The
+source lives in Figma; the link is in `design/figma/README.md`.
 
-Katta binar fayllar uchun Git LFS ni ko'rib chiqing.
+Consider Git LFS for large binaries.

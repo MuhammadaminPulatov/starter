@@ -1,7 +1,9 @@
 # infrastructure/docker
 
-Dockerfile'lar va docker bilan bog'liq yordamchi fayllar.
+Dockerfiles and docker-related helpers.
 
-Tavsiya: har bir servis uchun alohida `Dockerfile` (`api-node.Dockerfile`, `worker.Dockerfile`), multi-stage build, `.dockerignore` bilan.
+Suggested: one Dockerfile per service (`api-node.Dockerfile`,
+`worker.Dockerfile`), multi-stage builds, and a `.dockerignore`.
 
-Lokal orkestratsiya ildizdagi `docker-compose.yml` da.
+Local orchestration lives in the root `docker-compose.yml`; see
+`docker-compose.override.yml.example` for wiring app services in.

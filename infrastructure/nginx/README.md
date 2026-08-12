@@ -1,5 +1,6 @@
 # infrastructure/nginx
 
-Reverse proxy konfiguratsiyasi: domenlar, TLS, static fayllar, rate limiting, upstream servislar.
+Reverse proxy configuration: domains, TLS, static files, rate limiting,
+upstream services.
 
-Boshqa proxy (Caddy, Traefik) ishlatsangiz — shu papkani o'shanga moslang yoki o'chiring.
+Using a different proxy (Caddy, Traefik)? Adapt this directory or delete it.

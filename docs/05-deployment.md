@@ -1,40 +1,44 @@
-# Deploy — muhitlar va siyosat
+# Deployment — environments and policy
 
-Bu hujjat **nima va nega** haqida. Qadamma-qadam ko'rsatma uchun: [`docs/guides/03-deployment-guide.md`](guides/03-deployment-guide.md).
-Production yonayotgan bo'lsa: [`docs/operations/runbook.md`](operations/runbook.md).
+This document covers **what and why**. For the step-by-step procedure see
+[`docs/guides/03-deployment-guide.md`](guides/03-deployment-guide.md).
+If production is on fire: [`docs/operations/runbook.md`](operations/runbook.md).
 
-## Muhitlar
+## Environments
 
-| Muhit | Maqsad | Ma'lumot | Kim deploy qiladi |
+| Environment | Purpose | Data | Who deploys |
 | --- | --- | --- | --- |
-| `development` | Lokal dasturlash | Soxta/seed ma'lumot | Har bir dasturchi, o'z mashinasida |
-| `staging` | Production'ga o'xshash sinov | Anonimlashtirilgan nusxa | `main` ga merge avtomatik |
-| `production` | Haqiqiy foydalanuvchilar | Haqiqiy ma'lumot | Faqat tasdiqdan keyin |
+| `development` | Local development | Fake / seed data | Every developer, locally |
+| `staging` | Production-like testing | Anonymised copy | Automatic on merge to `main` |
+| `production` | Real users | Real data | Only after approval |
 
-## Deploy siyosati
+## Deployment policy
 
-- Production'ga faqat `main` branch'dan deploy qilinadi.
-- Har bir deploy avval staging'dan o'tadi.
-- Ish kuni oxirida yoki dam olish kuni oldidan production deploy qilinmaydi.
-- Har bir deploy qaytarilishi (rollback) mumkin bo'lishi shart.
+- Production is deployed from `main` only.
+- Every deploy passes through staging first.
+- No production deploy at the end of the day or right before a weekend.
+- Every deploy must be reversible.
 
-## Deploy oldidan majburiy shartlar
+## Required before deploying
 
-- [ ] CI barcha tekshiruvlardan o'tgan.
-- [ ] Migration qaytarilishi mumkin yoki ma'lumot yo'qotmaydi.
-- [ ] Yangi environment o'zgaruvchilari maqsadli muhitga qo'shilgan.
-- [ ] Database backup mavjud va yangi.
-- [ ] Rollback rejasi ma'lum.
+- [ ] All CI checks passed.
+- [ ] Migrations are reversible or lose no data.
+- [ ] New environment variables exist in the target environment.
+- [ ] A recent database backup exists.
+- [ ] The rollback plan is known.
 
-## Secretlar
+## Secrets
 
-Secretlar faqat deploy platformasining secret saqlash tizimida bo'ladi — repozitoriyda emas, CI logida emas.
-`.env.example` da faqat kalit nomlari va bo'sh placeholder turadi.
+Secrets live in the deployment platform's secret store — not in the repository
+and not in CI logs. `.env.example` holds key names and empty placeholders only.
 
-## Migration qoidasi
+## Migration rule
 
-Sxema o'zgarishi ikki bosqichda qilinadi (expand → contract): avval yangi ustun/jadval qo'shiladi va kod ikkalasini ham qo'llab-quvvatlaydi, keyingi deployda eskisi o'chiriladi. Shunda rollback ma'lumot yo'qotmaydi.
+Schema changes happen in two phases (expand → contract): first add the new
+column or table while the code supports both shapes, then remove the old one in
+a later deploy. That keeps rollback from losing data.
 
 ## Monitoring
 
-Deploydan keyin kamida 15 daqiqa kuzatiladi: xato darajasi, javob vaqti, navbat uzunligi, resurs sarfi.
+Watch for at least 15 minutes after a deploy: error rate, response time, queue
+depth, resource usage.

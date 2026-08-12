@@ -1,5 +1,5 @@
 # tests
 
-Pytest testlari. `conftest.py` da umumiy fixture'lar (test database, HTTP client) saqlanadi.
+Pytest tests. Shared fixtures (test database, HTTP client) go in `conftest.py`.
 
-Har bir yangi endpoint va tuzatilgan bug uchun test bo'lishi shart.
+Every new endpoint and every fixed bug needs a test.

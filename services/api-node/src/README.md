@@ -1,11 +1,11 @@
 # src
 
-API manba kodi. Tavsiya etilgan tuzilish:
+API source code. Suggested layout:
 
-| Papka | Nima uchun |
+| Directory | Purpose |
 | --- | --- |
-| `routes/` | HTTP endpointlar — faqat so'rov/javob, biznes logika emas |
-| `services/` | Biznes logika |
-| `repositories/` | Database bilan ishlash |
-| `middleware/` | Auth, log, xato ushlash |
-| `config/` | Environment o'qish va validatsiya |
+| `routes/` | HTTP endpoints — request/response only, no business logic |
+| `services/` | Business logic |
+| `repositories/` | Database access |
+| `middleware/` | Auth, logging, error handling |
+| `config/` | Reading and validating the environment |

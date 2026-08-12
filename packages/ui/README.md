@@ -1,9 +1,12 @@
 # packages/ui
 
-Bir nechta ilova ishlatadigan UI komponentlar (tugma, forma, modal, layout).
+UI components shared by more than one application (buttons, forms, modals,
+layouts).
 
-**Qachon shu yerga qo'yiladi:** komponent kamida ikki joyda kerak bo'lganda. Bitta joyda ishlatilsa — o'sha ilova ichida qolsin.
+**When something belongs here:** once a component is needed in at least two
+places. If only one app uses it, keep it in that app.
 
-**Qoida:** komponentlar biznes logikasiz va API chaqiruvisiz bo'lsin — faqat prop qabul qilib ko'rsatsin.
+**Rule:** components stay free of business logic and API calls — they take props
+and render.
 
-**Ishlatmasangiz:** bu papkani o'chiring.
+**Not using it?** Delete this directory.

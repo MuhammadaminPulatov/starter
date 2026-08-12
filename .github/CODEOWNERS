@@ -1,14 +1,16 @@
-# Har bir papka uchun sukut bo'yicha reviewer.
-# `@username` yoki `@org/team` shaklida to'ldiring — PR ochilganda avtomatik so'raladi.
+# Default reviewer for each directory.
+# Fill in with `@username` or `@org/team` — GitHub then requests review
+# automatically when a matching path changes.
 
-# * @loyiha-egasi
+# * @your-username
 
 # /apps/web/            @frontend-team
 # /apps/mobile/         @mobile-team
 # /services/            @backend-team
 # /infrastructure/      @devops-team
-# /docs/                @loyiha-egasi
+# /docs/                @your-username
+# /scripts/lang/        @your-username   # translations
 
-# Xavfsizlikka ta'sir qiladigan fayllar
-# /.github/workflows/   @loyiha-egasi
-# /.env.example         @loyiha-egasi
+# Security-sensitive paths
+# /.github/workflows/   @your-username
+# /.env.example         @your-username

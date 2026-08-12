@@ -1,17 +1,19 @@
 # services/api-node
 
-Node.js / TypeScript API.
+The Node.js / TypeScript API.
 
-**Qanday boshlash**
+**Getting started**
 
 ```bash
 cd services/api-node && npm init -y
-npm i fastify         # yoki express, nestjs, hono
+npm i fastify         # or express, nestjs, hono
 npm pkg set scripts.lint="eslint ." scripts.test="vitest run" scripts.build="tsc"
 ```
 
-`scripts.lint`, `scripts.test`, `scripts.build` qo'shilgach `make lint/test/build` bu servisni avtomatik topadi.
+Once `scripts.lint`, `scripts.test` and `scripts.build` exist, `make lint/test/build`
+picks this service up automatically.
 
-**Tuzilishi:** kod `src/`, testlar `tests/`. API o'zgarsa `docs/api/openapi.yaml` yangilanadi.
+**Layout:** code in `src/`, tests in `tests/`. When the API changes, update
+`docs/api/openapi.yaml`.
 
-**Ishlatmasangiz:** bu papkani o'chiring.
+**Not using it?** Delete this directory.

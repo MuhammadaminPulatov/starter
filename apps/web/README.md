@@ -1,16 +1,16 @@
 # apps/web
 
-Sayt, admin panel yoki dashboard — brauzerda ochiladigan hamma narsa.
+Website, admin panel or dashboard — anything that opens in a browser.
 
-**Qanday boshlash**
+**Getting started**
 
 ```bash
 # Next.js
 npx create-next-app@latest apps/web
-# yoki Vite + React
+# or Vite + React
 npm create vite@latest apps/web
 ```
 
-**Eslatma:** API chaqiruvlarini to'g'ridan-to'g'ri yozmang — `packages/sdk` orqali qiling.
+**Note:** do not call the API directly — go through `packages/sdk`.
 
-**Ishlatmasangiz:** bu papkani o'chiring. `make` va CI hamon ishlaydi.
+**Not using it?** Delete this directory. `make` and CI keep working.
