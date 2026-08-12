@@ -26,6 +26,15 @@ Node uchun package manager lockfayldan aniqlanadi (`pnpm-lock.yaml` → pnpm, `y
 
 Manifest yo'q papka o'tkazib yuboriladi va bu ekranda aniq ko'rsatiladi — hech qachon "muvaffaqiyatli" deb hisoblanmaydi.
 
+### `--stack` filtri
+
+```bash
+./scripts/run.sh --stack node lint     # faqat node papkalari
+./scripts/run.sh --stack python test   # faqat python papkalari
+```
+
+CI da har bir job faqat o'z tilining vositalarini o'rnatadi (node job'ida `uv` yo'q, python job'ida `npm` kerak emas). Filtrsiz node job'i python papkasiga ham urinardi va xato berardi — shuning uchun CI har doim `--stack` bilan chaqiradi.
+
 ## Yangi skript qo'shish
 
 1. `scripts/` ichida `*.sh` fayl yarating, boshiga `source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"` qo'ying.

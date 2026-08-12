@@ -2,3 +2,12 @@
 name = "api-python"
 version = "0.1.0"
 requires-python = ">=3.12"
+
+# Bu servis kutubxona emas, ilova — uni paket sifatida build qilish shart emas.
+[tool.uv]
+package = false
+
+# `from app.main import ...` ishlashi uchun servis ildizi sys.path ga qo'shiladi.
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
