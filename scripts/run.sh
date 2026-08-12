@@ -3,17 +3,36 @@
 # Har bir app/service/package papkasini aniqlab, so'ralgan vazifani bajaradi.
 #
 #   ./scripts/run.sh lint|test|build|install [papka ...]
+#   ./scripts/run.sh --stack node lint          # faqat node papkalari
 #
 # Papka ko'rsatilmasa — apps/*, services/*, packages/* bo'ylab yuradi.
 # Hech narsa topilmasa exit 0 qaytaradi, lekin nechta papka o'tkazib
 # yuborilganini aniq yozadi. "Ish yo'q" bilan "ish muvaffaqiyatli" aralashmaydi.
+#
+# `--stack` CI uchun muhim: har bir job faqat o'z tilining vositalarini
+# o'rnatadi, shuning uchun node job'i python papkasiga tegmasligi kerak.
 
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
+
+STACK_FILTER=""
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --stack)
+      STACK_FILTER="${2:-}"
+      case "$STACK_FILTER" in
+        node|python|go|rust|dart) ;;
+        *) die "--stack qiymati: node|python|go|rust|dart (berilgan: '$STACK_FILTER')" ;;
+      esac
+      shift 2
+      ;;
+    *) break ;;
+  esac
+done
 
 TASK="${1:-}"
 case "$TASK" in
   lint|test|build|install) shift ;;
-  *) die "ishlatilishi: $(basename "$0") lint|test|build|install [papka ...]" ;;
+  *) die "ishlatilishi: $(basename "$0") [--stack NOM] lint|test|build|install [papka ...]" ;;
 esac
 
 ran=0
@@ -155,9 +174,19 @@ fi
 
 total=${#units[@]}
 
+filtered=0
+
 for dir in ${units[@]+"${units[@]}"}; do
   [ -d "$dir" ] || { warn "$dir topilmadi"; continue; }
-  case "$(detect_stack "$dir")" in
+  unit_stack="$(detect_stack "$dir")"
+
+  # --stack berilgan bo'lsa, boshqa tildagi papkalar bu ishga taalluqli emas.
+  if [ -n "$STACK_FILTER" ] && [ "$unit_stack" != "$STACK_FILTER" ]; then
+    filtered=$((filtered + 1))
+    continue
+  fi
+
+  case "$unit_stack" in
     node)   handle_node   "$dir" ;;
     python) handle_python "$dir" ;;
     go)     handle_go     "$dir" ;;
@@ -171,16 +200,19 @@ for dir in ${units[@]+"${units[@]}"}; do
 done
 
 echo
+scope=""
+[ -n "$STACK_FILTER" ] && scope=" [--stack $STACK_FILTER: $filtered papka boshqa tilda]"
+
 if [ "$failed" -gt 0 ]; then
-  fail "$TASK: $failed xato, $ran muvaffaqiyatli, $skipped o'tkazib yuborildi ($total papkadan)"
+  fail "$TASK: $failed xato, $ran muvaffaqiyatli, $skipped o'tkazib yuborildi ($total papkadan)$scope"
   for u in "${failed_units[@]}"; do printf '       - %s\n' "$u"; done
   exit 1
 fi
 
 if [ "$ran" -eq 0 ]; then
-  warn "$TASK: bajarish uchun hech narsa topilmadi — $skipped papka o'tkazib yuborildi ($total dan)"
+  warn "$TASK: bajarish uchun hech narsa topilmadi — $skipped papka o'tkazib yuborildi ($total dan)$scope"
   echo "     Bu xato emas: hali kod qo'shilmagan. Papkaga package.json yoki"
   echo "     pyproject.toml qo'shilgach, u avtomatik topiladi."
 else
-  ok "$TASK: $ran muvaffaqiyatli, $skipped o'tkazib yuborildi ($total papkadan)"
+  ok "$TASK: $ran muvaffaqiyatli, $skipped o'tkazib yuborildi ($total papkadan)$scope"
 fi
