@@ -12,6 +12,7 @@
 # `--stack` matters in CI: each job installs only its own toolchain, so the
 # node job must not touch a python directory.
 
+# shellcheck source=scripts/lib.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
 STACK_FILTER=""

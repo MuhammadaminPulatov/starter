@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help setup dev dev-queue down logs ps test lint build install doctor clean
+.PHONY: help setup dev dev-queue down logs ps test lint lint-sh build install doctor clean
 
 SHELL := /bin/bash
 
@@ -39,6 +39,9 @@ ps: ## Container status
 
 lint: ## Lint every detected app/service
 	@./scripts/run.sh lint
+
+lint-sh: ## Lint this repository's own shell scripts (needs shellcheck)
+	@shellcheck scripts/*.sh scripts/lang/*.sh && echo "shellcheck: clean"
 
 test: ## Test every detected app/service
 	@./scripts/run.sh test

@@ -7,9 +7,10 @@
 #
 # Exits 1 when a problem is found.
 
+# shellcheck source=scripts/lib.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
-cd "$REPO_ROOT"
+cd "$REPO_ROOT" || exit 1
 
 CI_MODE=0
 [ "${1:-}" = "--ci" ] && CI_MODE=1
@@ -33,6 +34,9 @@ md_links() {
 # `feature/short-name` (a branch) or `package.json` (a generic file name) are
 # not reported. They must start with a known top-level directory.
 backtick_paths() {
+  # SC2016: the single quotes are intentional — this is a literal regex, and
+  # the backticks are the characters being matched, not command substitution.
+  # shellcheck disable=SC2016
   grep -ohE '`[A-Za-z0-9._/-]+`' "$1" 2>/dev/null | tr -d '`' \
     | grep -E '^(docs|apps|services|packages|scripts|infrastructure|design|\.github)/|^(README\.md|AGENTS\.md|CLAUDE\.md|PROJECT_INDEX\.md|CHANGELOG\.md|CONTRIBUTING\.md|SECURITY\.md|Makefile|LICENSE|\.env\.example)$' \
     || true
@@ -67,6 +71,9 @@ info "$T_DR_ENV"
 
 env_keys() { grep -E '^[A-Za-z_][A-Za-z0-9_]*=' "$1" | cut -d= -f1 | sort -u; }
 
+# Prints each line of a list indented, for readable problem reports.
+indent_list() { while IFS= read -r l; do [ -n "$l" ] && printf '         %s\n' "$l"; done; }
+
 if [ ! -f .env.example ]; then
   report_problem "$T_DR_ENV_NO_EXAMPLE"
 elif [ "$CI_MODE" -eq 1 ] || [ ! -f .env ]; then
@@ -81,11 +88,11 @@ else
   extra="$(comm -13 <(env_keys .env.example) <(env_keys .env))"
   if [ -n "$missing" ]; then
     report_problem "$T_DR_ENV_MISSING"
-    echo "$missing" | sed 's/^/         /'
+    printf '%s\n' "$missing" | indent_list
   fi
   if [ -n "$extra" ]; then
     warn "$T_DR_ENV_EXTRA"
-    echo "$extra" | sed 's/^/         /'
+    printf '%s\n' "$extra" | indent_list
   fi
   [ -z "$missing" ] && [ -z "$extra" ] && ok "$T_DR_ENV_OK"
 fi

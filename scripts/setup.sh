@@ -3,9 +3,10 @@
 # Prepares the project: creates .env and installs dependencies.
 # Safe to run more than once (idempotent).
 
+# shellcheck source=scripts/lib.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
-cd "$REPO_ROOT"
+cd "$REPO_ROOT" || exit 1
 
 info "$T_SETUP_ENV_CHECK"
 if [ -f .env ]; then

@@ -4,6 +4,10 @@
 # Values are printf format strings. Keep the number and order of %s
 # placeholders identical across all languages.
 
+# These variables are consumed by the scripts that source this file,
+# so ShellCheck cannot see their use from here.
+# shellcheck disable=SC2034
+
 # --- shared ---------------------------------------------------------------
 T_TOOL_MISSING='%s: %s is not installed — skipped'
 T_DIR_NOT_FOUND='%s not found'

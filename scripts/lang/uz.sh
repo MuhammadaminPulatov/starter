@@ -6,6 +6,10 @@
 # Shuning uchun bu yerda toʻgʻri oʻzbek harflari ishlatiladi: oʻ, gʻ (U+02BB)
 # va ʼ (U+02BC). Bu orfografik jihatdan ham toʻgʻri.
 
+# These variables are consumed by the scripts that source this file,
+# so ShellCheck cannot see their use from here.
+# shellcheck disable=SC2034
+
 # --- umumiy ---------------------------------------------------------------
 T_TOOL_MISSING='%s: %s oʻrnatilmagan — oʻtkazib yuborildi'
 T_DIR_NOT_FOUND='%s topilmadi'

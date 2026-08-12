@@ -23,7 +23,7 @@ ochiq.
 
 | Job | Nimani tasdiqlaydi |
 | --- | --- |
-| `structure` | Hujjat havolalari, `.env.example` pariteti, secret gigienasi, YAML toʻgʻriligi |
+| `structure` | Hujjat havolalari, `.env.example` pariteti, secret gigienasi, YAML toʻgʻriligi, ShellCheck |
 | `node` | Faqat `package.json` mavjud boʻlsa ishlaydi: install, lint, test, build |
 | `python` | Faqat `pyproject.toml` mavjud boʻlsa ishlaydi: install, lint, test |
 | `ci-ok` | Yuqoridagilarni yigʻadi — branch protection uchun aynan shuni "required" qiling |

@@ -30,6 +30,10 @@ jobs:
       - name: Docker Compose configuration
         run: docker compose config --quiet && echo "docker-compose.yml OK"
 
+      # The scripts are this repository's product, so they are linted like code.
+      - name: ShellCheck
+        run: shellcheck scripts/*.sh scripts/lang/*.sh && echo "shellcheck OK"
+
   # Detects which stacks exist — the jobs below run accordingly.
   detect:
     name: Detect stacks

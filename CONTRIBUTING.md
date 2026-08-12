@@ -22,7 +22,7 @@ Thanks for helping. Issues, pull requests and translation fixes are all welcome.
 
 | Job | What it verifies |
 | --- | --- |
-| `structure` | Documentation links, `.env.example` parity, secret hygiene, YAML validity |
+| `structure` | Documentation links, `.env.example` parity, secret hygiene, YAML validity, ShellCheck |
 | `node` | Runs only when a `package.json` exists: install, lint, test, build |
 | `python` | Runs only when a `pyproject.toml` exists: install, lint, test |
 | `ci-ok` | Aggregates the above — make this one the required check |
@@ -61,6 +61,9 @@ diff <(grep -o '^T_[A-Z_]*' scripts/lang/en.sh | sort) \
 - Never hardcode a path to a specific app or service. Automation is
   detection-based so that any directory can be deleted.
 - Make `doctor.sh` checks report the problem *and* how to fix it.
+- Run `make lint-sh` before pushing — ShellCheck must be clean. If a finding is
+  a deliberate design choice, disable it inline with a comment explaining why,
+  not silently.
 
 ## Translating documentation
 

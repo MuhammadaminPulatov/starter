@@ -62,6 +62,18 @@ language file must define the **same keys** with the **same number and order of
 > catalogue therefore uses the correct Uzbek letters `oʻ`, `gʻ` (U+02BB) and
 > `ʼ` (U+02BC), which is also the proper orthography.
 
+## Linting the scripts
+
+The scripts are this repository's product, so they are linted like code:
+
+```bash
+make lint-sh          # or: shellcheck scripts/*.sh scripts/lang/*.sh
+```
+
+CI runs the same command. `.shellcheckrc` documents the two rules that are
+disabled on purpose (SC1091 for the runtime `source` path, SC2059 because the
+message catalogues *are* printf format strings).
+
 ## Adding a script
 
 1. Create `scripts/<name>.sh` starting with

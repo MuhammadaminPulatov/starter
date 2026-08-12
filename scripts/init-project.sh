@@ -8,9 +8,10 @@
 #
 # Every destructive step asks for confirmation first.
 
+# shellcheck source=scripts/lib.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
-cd "$REPO_ROOT"
+cd "$REPO_ROOT" || exit 1
 
 DRY_RUN=0
 PROJECT_NAME=""

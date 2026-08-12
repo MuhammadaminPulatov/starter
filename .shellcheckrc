@@ -1,0 +1,19 @@
+# ShellCheck configuration.
+# Run locally with: shellcheck scripts/*.sh scripts/lang/*.sh
+# CI runs the same command, so a clean local run means a clean CI run.
+
+# Resolve `source` targets relative to the repository root.
+external-sources=true
+
+# SC1091 — "not following: ... was not specified as input".
+# Every script sources scripts/lib.sh through a path computed at runtime
+# ($(dirname "${BASH_SOURCE[0]}")/lib.sh), which ShellCheck cannot resolve
+# statically. The `# shellcheck source=` directives cover the real files.
+disable=SC1091
+
+# SC2059 — "don't use variables in the printf format string".
+# This is deliberate and central to the design: user-facing text lives in the
+# message catalogues (scripts/lang/*.sh) as printf format strings, and the
+# output helpers in lib.sh apply them. The formats come from files we ship,
+# never from user input, so there is no format-string injection risk.
+disable=SC2059

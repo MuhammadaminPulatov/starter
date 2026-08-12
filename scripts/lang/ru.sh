@@ -2,6 +2,10 @@
 # Сообщения на русском. Ключи должны совпадать с en.sh —
 # количество и порядок подстановок %s тоже должны совпадать.
 
+# These variables are consumed by the scripts that source this file,
+# so ShellCheck cannot see their use from here.
+# shellcheck disable=SC2034
+
 # --- общее ----------------------------------------------------------------
 T_TOOL_MISSING='%s: %s не установлен — пропущено'
 T_DIR_NOT_FOUND='%s не найден'
