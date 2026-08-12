@@ -18,7 +18,7 @@ jobs:
     name: Struktura va hujjatlar
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # doctor.sh YAML tekshiruvini python3+pyyaml orqali bajaradi.
       - name: PyYAML
@@ -38,7 +38,7 @@ jobs:
       node: ${{ steps.scan.outputs.node }}
       python: ${{ steps.scan.outputs.python }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: scan
         run: |
           node=false; python=false
@@ -57,8 +57,8 @@ jobs:
     if: needs.detect.outputs.node == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
       - run: ./scripts/run.sh install
@@ -87,11 +87,11 @@ jobs:
     env:
       DATABASE_URL: postgresql://app:app_dev_password@localhost:5432/app_db
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version-file: .python-version
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v10
       - run: ./scripts/run.sh install
       - run: ./scripts/run.sh lint
       - run: ./scripts/run.sh test
