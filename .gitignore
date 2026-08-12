@@ -1,0 +1,56 @@
+# Environment — hech qachon commit qilinmaydi
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Compose lokal override
+docker-compose.override.yml
+
+# Node
+node_modules/
+dist/
+build/
+.next/
+.nuxt/
+.turbo/
+.svelte-kit/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# Test va coverage
+coverage/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# Loglar va vaqtinchalik fayllar
+*.log
+tmp/
+.cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editorlar
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example

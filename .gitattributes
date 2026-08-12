@@ -1,0 +1,24 @@
+# Barcha matn fayllarda LF — Windows/macOS/Linux orasida farq bo'lmasin
+* text=auto eol=lf
+
+# Skriptlar har doim LF (CRLF bo'lsa bajarilmaydi)
+*.sh text eol=lf
+Makefile text eol=lf
+
+# Lockfayllar diff va til statistikasidan chiqariladi
+package-lock.json  linguist-generated=true -diff
+pnpm-lock.yaml     linguist-generated=true -diff
+yarn.lock          linguist-generated=true -diff
+bun.lockb          binary
+uv.lock            linguist-generated=true -diff
+poetry.lock        linguist-generated=true -diff
+
+# Binar fayllar
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary

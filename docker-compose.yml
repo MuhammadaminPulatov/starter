@@ -1,0 +1,49 @@
+# Lokal dasturlash infratuzilmasi.
+# Barcha qiymatlar .env dan o'qiladi; .env yo'q bo'lsa quyidagi default'lar ishlatiladi.
+#
+#   make dev         → faqat postgres
+#   make dev-queue   → postgres + redis (services/worker uchun)
+#
+# Ilova servislarini qo'shish uchun docker-compose.override.yml.example ga qarang.
+
+name: ${COMPOSE_PROJECT_NAME:-project}
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app_db}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-app_dev_password}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # infrastructure/database ichidagi *.sql fayllar birinchi ishga tushishda bajariladi
+      - ./infrastructure/database:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-app} -d ${POSTGRES_DB:-app_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    profiles: [queue]
+    command: redis-server --appendonly yes
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  postgres_data:
+  redis_data:

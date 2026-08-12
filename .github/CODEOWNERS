@@ -1,0 +1,14 @@
+# Har bir papka uchun sukut bo'yicha reviewer.
+# `@username` yoki `@org/team` shaklida to'ldiring — PR ochilganda avtomatik so'raladi.
+
+# * @loyiha-egasi
+
+# /apps/web/            @frontend-team
+# /apps/mobile/         @mobile-team
+# /services/            @backend-team
+# /infrastructure/      @devops-team
+# /docs/                @loyiha-egasi
+
+# Xavfsizlikka ta'sir qiladigan fayllar
+# /.github/workflows/   @loyiha-egasi
+# /.env.example         @loyiha-egasi

@@ -1,0 +1,119 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # Har doim haqiqiy ish bajaradi — template bo'sh bo'lsa ham mazmunli.
+  structure:
+    name: Struktura va hujjatlar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # doctor.sh YAML tekshiruvini python3+pyyaml orqali bajaradi.
+      - name: PyYAML
+        run: python3 -m pip install --quiet pyyaml
+
+      - name: Doctor (havolalar, env pariteti, secret gigienasi, YAML)
+        run: ./scripts/doctor.sh --ci
+
+      - name: Docker Compose konfiguratsiyasi
+        run: docker compose config --quiet && echo "docker-compose.yml OK"
+
+  # Qaysi stack borligini aniqlaydi — keyingi joblar shunga qarab ishlaydi.
+  detect:
+    name: Stacklarni aniqlash
+    runs-on: ubuntu-latest
+    outputs:
+      node: ${{ steps.scan.outputs.node }}
+      python: ${{ steps.scan.outputs.python }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: scan
+        run: |
+          node=false; python=false
+          for dir in apps/*/ services/*/ packages/*/; do
+            [ -d "$dir" ] || continue
+            [ -f "$dir/package.json" ]   && node=true
+            [ -f "$dir/pyproject.toml" ] && python=true
+          done
+          echo "node=$node"     >> "$GITHUB_OUTPUT"
+          echo "python=$python" >> "$GITHUB_OUTPUT"
+          echo "Topildi — node: $node, python: $python"
+
+  node:
+    name: Node (lint / test / build)
+    needs: detect
+    if: needs.detect.outputs.node == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: ./scripts/run.sh install
+      - run: ./scripts/run.sh lint
+      - run: ./scripts/run.sh test
+      - run: ./scripts/run.sh build
+
+  python:
+    name: Python (lint / test)
+    needs: detect
+    if: needs.detect.outputs.python == 'true'
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: app_db
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app_dev_password
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://app:app_dev_password@localhost:5432/app_db
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+      - uses: astral-sh/setup-uv@v5
+      - run: ./scripts/run.sh install
+      - run: ./scripts/run.sh lint
+      - run: ./scripts/run.sh test
+
+  # Barcha kerakli joblar o'tganini bitta joyda tekshiradi.
+  # Branch protection uchun shu jobni "required" qilib qo'ying.
+  ci-ok:
+    name: CI natijasi
+    if: always()
+    needs: [structure, node, python]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Natijani tekshirish
+        run: |
+          # 'skipped' normal (o'sha stack yo'q), 'failure'/'cancelled' esa yo'q.
+          if [ "${{ needs.structure.result }}" != "success" ]; then
+            echo "structure job o'tmadi"; exit 1
+          fi
+          for r in "${{ needs.node.result }}" "${{ needs.python.result }}"; do
+            case "$r" in
+              success|skipped) ;;
+              *) echo "Job natijasi: $r"; exit 1 ;;
+            esac
+          done
+          echo "Barcha tekshiruvlar o'tdi"

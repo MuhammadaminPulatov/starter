@@ -1,0 +1,53 @@
+# Ilova servislarini lokal ishga tushirish uchun namuna.
+#
+#   cp docker-compose.override.yml.example docker-compose.override.yml
+#
+# `docker compose` bu faylni avtomatik o'qiydi va asosiy faylga qo'shadi.
+# `docker-compose.override.yml` .gitignore da — har kim o'ziga moslashtiradi.
+#
+# Faqat kerakli bloklarni izohdan chiqaring.
+
+services:
+  # api-node:
+  #   build:
+  #     context: ./services/api-node
+  #     dockerfile: ../../infrastructure/docker/api-node.Dockerfile
+  #   env_file: .env
+  #   environment:
+  #     DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-app_dev_password}@postgres:5432/${POSTGRES_DB:-app_db}
+  #   ports:
+  #     - "${PORT:-3000}:3000"
+  #   volumes:
+  #     - ./services/api-node:/app
+  #     - /app/node_modules          # host node_modules containerni bosmasin
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+
+  # api-python:
+  #   build:
+  #     context: ./services/api-python
+  #     dockerfile: ../../infrastructure/docker/api-python.Dockerfile
+  #   env_file: .env
+  #   environment:
+  #     DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-app_dev_password}@postgres:5432/${POSTGRES_DB:-app_db}
+  #   command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+  #   ports:
+  #     - "8000:8000"
+  #   volumes:
+  #     - ./services/api-python:/app
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+
+  # worker:
+  #   build:
+  #     context: ./services/worker
+  #     dockerfile: ../../infrastructure/docker/worker.Dockerfile
+  #   env_file: .env
+  #   environment:
+  #     REDIS_URL: redis://redis:6379/0
+  #   profiles: [queue]
+  #   depends_on:
+  #     redis:
+  #       condition: service_healthy

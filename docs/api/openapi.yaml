@@ -1,0 +1,98 @@
+openapi: 3.1.0
+
+info:
+  title: Project API
+  version: 0.1.0
+  description: |
+    Bu fayl API ning haqiqiy manbasi (source of truth).
+    Endpoint qo'shsangiz yoki o'zgartirsangiz, shu faylni ham yangilang.
+
+    FastAPI (`services/api-python`) hujjatni `/docs` da avtomatik chiqaradi —
+    u holda bu faylni generatsiya qilingan sxema bilan almashtiring.
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Local development
+  - url: https://staging.example.com/api/v1
+    description: Staging
+  - url: https://api.example.com/api/v1
+    description: Production
+
+tags:
+  - name: system
+    description: Health va service metadata
+
+paths:
+  /health:
+    get:
+      tags: [system]
+      summary: Service holati
+      description: Load balancer va monitoring shu endpointni chaqiradi. Autentifikatsiya talab qilmaydi.
+      security: []
+      responses:
+        "200":
+          description: Service sog'lom
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Health"
+        "503":
+          description: Service tayyor emas (masalan, database ulanmagan)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Health:
+      type: object
+      required: [status, version]
+      properties:
+        status:
+          type: string
+          enum: [ok, degraded]
+        version:
+          type: string
+          example: "0.1.0"
+        uptime_seconds:
+          type: integer
+          minimum: 0
+          example: 3600
+
+    Error:
+      description: Barcha xato javoblari shu shaklda qaytadi.
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              description: Mashina o'qiydigan xato kodi.
+              example: VALIDATION_FAILED
+            message:
+              type: string
+              description: Odam o'qiydigan tavsif.
+              example: "phone maydoni noto'g'ri formatda"
+            details:
+              type: array
+              description: Maydon darajasidagi xatolar.
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  issue:
+                    type: string
+
+security:
+  - bearerAuth: []
